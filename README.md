@@ -1,26 +1,18 @@
 ## Live demo
 
 [Codepen: Circle + Chargement Crop](http://codepen.io/Crackeraki/pen/avYNKP)<br>
-[Codepen: Square + Init Url Crop](http://codepen.io/Crackeraki/pen/QjmNVM)<br>
+[Codepen: Square + Init Url Crop + Maximum rendered image](http://codepen.io/Crackeraki/pen/QjmNVM)<br>
 [Codepen: Rectangle Crop](http://codepen.io/Crackeraki/pen/XmEdPx)<br>
+[Codepen: Rectangle Crop + Crop info](http://codepen.io/anon/pen/RrmKwV)<br>
 [Codepen: Rectangle With Aspect Crop](http://codepen.io/Crackeraki/pen/zvWqJM)<br>
 [Codepen: Rectangle + Aspect + Array Crop](http://codepen.io/Neftedollar/pen/YydwNB)<br>
 
-## Future Plan / Bug
+## News
 
-1) Add option to init cropper area to max size as much as possible.
+On update 0.5.1 i have added feature which block the render of canvas on each move end, which will save the lag when you are exporting huge images. To make this work you have to asign `$scope.blockManagement={block: true}` to `<img-crop live-view="blockManagement">`. When you have to render the canvas into dataURL you just have to `$scope.blockManagement.render(function(dataURL){console.log(dataURL);})`. I have build live demo on the `Codepen: Rectangle Crop`;<br>
+If you have any issue after update from 0.4.9 to 0.5.1, please reply here [Post about the new feature](https://github.com/CrackerakiUA/ngImgCropFullExtended/issues/57)
 
-2) Add option to not resize cropper area on siders.
 
-3) On aspect ration when height is more then width, crop area don't go down.
-
-4) Add option to set fixed Height or Width of the crop area.
-
-5) Wrap input(file) within plugin, so it don't have any load problems, like with angular material dialog. Make in it an area with a message inside to click for upload new file. This will be by option enabled. Rebuild all demo with this feature. Add button on work space to add new image if image given, make full options for that.
-
-6) Add filters apply. Make an easy way to create new filters. Add some basic filters like Brightness,Contrast,Blur etc.
-
-7) When mouse leave the crop container, crop area get to the corner.
 
 # ngImgCropFullExtended
 
@@ -59,9 +51,10 @@ Source image by Edgaras Maselskis
 
 ### Download
 
-You have three options to get the files:
+You have four options to get the files:
 - [Download ngImgCropExtended](https://github.com/CrackerakiUA/ngImgCropExtended/archive/master.zip) files from GitHub.
 - Use Bower to download the files. Just run `bower install ngImgCropFullExtended`.
+- Use Npm to download the files. Just run `npm i ng-img-crop-full-extended`.
 - Use Meteor to download the files. Just run `meteor add correpw:ng-img-crop-full-extended`.
 
 ### Add files
@@ -158,8 +151,12 @@ The following code enables to select an image using a file input and crop it. Th
     url-blob="{string}"
     area-coords="myAreaCoords"
    [change-on-fly="{boolean}"]
+   [live-view="{object}"]
    [area-type="{circle|square|rectangle}"]
    [area-min-size="{ number|{w:number,h:number} }"]
+   [area-min-relative-size="{ number|{w:number,h:number} }"]
+   [cropject="{cropWidth:number,cropHeight:number,cropTop:number,cropLeft:number}"]
+   [area-init-size="{ number|{w:number,h:number} }"]
    [result-image-size="{ number|{w:number,h:number}|[{w:number,h:number},{w:number,h:number},...] }"]
    [result-image-format="{string}"]
    [result-image-quality="{number}"]
@@ -198,6 +195,10 @@ Assignable angular expression to data-bind to. NgImgCrop puts an url blob of a c
 
 *Optional*. By default, to reduce CPU usage, when a user drags/resizes the crop area, the result image is only updated after the user stops dragging/resizing. Set true to always update the result image as the user drags/resizes the crop area.
 
+### live-view
+
+*Optional*. By default, to reduce CPU usage and lag mostly for huge result images, when a user drags/resizes the crop area, the result image is only updated after the user stops dragging/resizing. This is a bit complex part then change on fly, to make it work you have to create object in your controller and assign a variable block to it with try value. After that cropper will bind function "render" which will accept callback and that callback will return dataURL. Example of object {block: true}.
+
 ### area-type
 
 *Optional*. Type of the crop area. Possible values: circle|square|rectangle. Default: circle.
@@ -206,9 +207,23 @@ Assignable angular expression to data-bind to. NgImgCrop puts an url blob of a c
 
 *Optional*. Min. width/height of the crop area (in pixels). Default: 80.
 
+### crobject
+
+*Optional* Gives the opportunity to add an object to the cropper that gives information about the crop dimensions while croppping and selecting an image.
+
+### area-min-relative-size
+
+*Optional*. Min. width/height of the crop area (in pixels) relative to original image width/height. Usable if you use `result-image-size="'max'"` and want to get image larger that specified limit.
+
+### area-init-size
+
+*Optional*. Min. width/height of the crop area (in pixels) to start with, overriding the standard 200*200 crop area ratio. Default: false
+
 ### result-image-size
 
 *Optional*. Width/height of the result image (in pixels). Default: 200.
+'selection' renders an image of the size of the area selected.
+'max' maximizes the rendered image.
 
 ### result-array-image
 
@@ -262,4 +277,3 @@ While you have added an array inside of option result-image-size you will have o
 ## License
 
 See the [LICENSE](https://github.com/alexk111/CrackerakiUA/blob/master/LICENSE) file.
-
