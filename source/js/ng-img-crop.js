@@ -1,6 +1,6 @@
 'use strict';
-
-crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function ($timeout, CropHost, CropPubSub) {
+crop.$inject = ['$timeout', 'CropHost', 'CropPubSub'];
+crop.directive('imgCrop', function ($timeout, CropHost, CropPubSub) {
     return {
         restrict: 'E',
         scope: {
@@ -49,7 +49,7 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function ($time
             // Init Events Manager
             var events = scope.events;
 
-            // Init Crop Host
+            // Init Crop Host Instance
             var cropHost = new CropHost(element.find('canvas'), {}, events);
 
             // Store Result Image to check if it's changed
@@ -125,7 +125,7 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function ($time
                 element.append('<div class="loading"><span>' + scope.chargement + '...</span></div>')
             };
 
-            // Setup CropHost Event Handlers
+            // Setup cropHost Event Handlers
             events
                 .on('load-start', fnSafeApply(function (scope) {
                     scope.onLoadBegin({});
@@ -148,7 +148,7 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function ($time
                 }));
 
 
-            // Sync CropHost with Directive's options
+            // Sync cropHost with Directive's options
             scope.$watch('image', function (newVal) {
                 if (newVal) {
                     displayLoading();
@@ -197,7 +197,7 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function ($time
                 if (scope.aspectRatio) cropHost.setAspect(scope.aspectRatio);
             });
 
-            // Update CropHost dimensions when the directive element is resized
+            // Update cropHost dimensions when the directive element is resized
             scope.$watch(
                 function () {
                     return [element[0].clientWidth, element[0].clientHeight];
@@ -209,10 +209,10 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function ($time
                 true
             );
 
-            // Destroy CropHost Instance when the directive is destroying
+            // Destroy cropHost Instance when the directive is destroying
             scope.$on('$destroy', function () {
                 cropHost.destroy();
             });
         }
     };
-}]);
+});

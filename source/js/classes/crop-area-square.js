@@ -1,6 +1,6 @@
 'use strict';
 
-crop.factory('cropAreaSquare', ['cropArea', function(CropArea) {
+crop.factory('CropAreaSquare', ['CropArea', function(CropArea) {
     var CropAreaSquare = function() {
         CropArea.apply(this, arguments);
 

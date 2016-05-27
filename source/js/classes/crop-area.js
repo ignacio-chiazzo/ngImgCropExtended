@@ -1,6 +1,6 @@
 'use strict';
 
-crop.factory('cropArea', ['cropCanvas', function(CropCanvas) {
+crop.factory('CropArea', ['CropCanvas', function(CropCanvas) {
     var CropArea = function(ctx, events) {
         this._ctx = ctx;
         this._events = events;

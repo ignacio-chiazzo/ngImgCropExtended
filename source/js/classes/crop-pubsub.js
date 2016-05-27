@@ -1,6 +1,6 @@
 'use strict';
 
-crop.factory('cropPubSub', [function() {
+crop.factory('CropPubSub', [function() {
     return function() {
         var events = {};
         // Subscribe
