@@ -1,6 +1,6 @@
 'use strict';
 
-crop.factory('cropCanvas', [function() {
+crop.factory('CropCanvas', [function() {
     // Shape = Array of [x,y]; [0, 0] - center
     var shapeArrowNW = [
         [-0.5, -2],

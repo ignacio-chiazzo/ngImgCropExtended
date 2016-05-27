@@ -5,12 +5,12 @@
  * Copyright (c) 2016 undefined
  * License: MIT
  *
- * Generated at Friday, February 19th, 2016, 12:34:00 AM
+ * Generated at Friday, May 27th, 2016, 10:17:39 AM
  */
 (function() {
 var crop = angular.module('ngImgCrop', []);
 
-crop.factory('cropAreaCircle', ['cropArea', function(CropArea) {
+crop.factory('CropAreaCircle', ['CropArea', function(CropArea) {
     var CropAreaCircle = function() {
         CropArea.apply(this, arguments);
 
@@ -179,7 +179,7 @@ crop.factory('cropAreaCircle', ['cropArea', function(CropArea) {
     return CropAreaCircle;
 }]);
 
-crop.factory('cropAreaRectangle', ['cropArea', function (CropArea) {
+crop.factory('CropAreaRectangle', ['CropArea', function (CropArea) {
     var CropAreaRectangle = function () {
         CropArea.apply(this, arguments);
 
@@ -420,7 +420,7 @@ crop.factory('cropAreaRectangle', ['cropArea', function (CropArea) {
     return CropAreaRectangle;
 }]);
 
-crop.factory('cropAreaSquare', ['cropArea', function(CropArea) {
+crop.factory('CropAreaSquare', ['CropArea', function(CropArea) {
     var CropAreaSquare = function() {
         CropArea.apply(this, arguments);
 
@@ -714,7 +714,7 @@ crop.factory('cropAreaSquare', ['cropArea', function(CropArea) {
     return CropAreaSquare;
 }]);
 
-crop.factory('cropArea', ['cropCanvas', function(CropCanvas) {
+crop.factory('CropArea', ['CropCanvas', function(CropCanvas) {
     var CropArea = function(ctx, events) {
         this._ctx = ctx;
         this._events = events;
@@ -1007,7 +1007,7 @@ crop.factory('cropArea', ['cropCanvas', function(CropCanvas) {
     return CropArea;
 }]);
 
-crop.factory('cropCanvas', [function() {
+crop.factory('CropCanvas', [function() {
     // Shape = Array of [x,y]; [0, 0] - center
     var shapeArrowNW = [
         [-0.5, -2],
@@ -1977,7 +1977,7 @@ crop.service('cropEXIF', [function() {
     }
 }]);
 
-crop.factory('cropHost', ['$document', '$q', 'cropAreaCircle', 'cropAreaSquare', 'cropAreaRectangle', 'cropEXIF', function($document, $q, CropAreaCircle, CropAreaSquare, CropAreaRectangle, cropEXIF) {
+crop.factory('CropHost', ['$document', '$q', 'CropAreaCircle', 'CropAreaSquare', 'CropAreaRectangle', 'cropEXIF', function($document, $q, CropAreaCircle, CropAreaSquare, CropAreaRectangle, cropEXIF) {
     /* STATIC FUNCTIONS */
 
     // Get Element's Offset
@@ -2706,18 +2706,18 @@ crop.factory('cropHost', ['$document', '$q', 'cropAreaCircle', 'cropAreaSquare',
         this.destroy = function() {
             $document.off('mousemove', onMouseMove);
             elCanvas.off('mousedown', onMouseDown);
-            $document.off('mouseup', onMouseMove);
+            $document.off('mouseup', onMouseUp);
 
             $document.off('touchmove', onMouseMove);
             elCanvas.off('touchstart', onMouseDown);
-            $document.off('touchend', onMouseMove);
+            $document.off('touchend', onMouseUp);
 
             elCanvas.remove();
         };
     };
 }]);
 
-crop.factory('cropPubSub', [function() {
+crop.factory('CropPubSub', [function() {
     return function() {
         var events = {};
         // Subscribe
@@ -2740,7 +2740,8 @@ crop.factory('cropPubSub', [function() {
     };
 }]);
 
-crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function ($timeout, CropHost, CropPubSub) {
+crop.$inject = ['$timeout', 'CropHost', 'CropPubSub'];
+crop.directive('imgCrop', function ($timeout, CropHost, CropPubSub) {
     return {
         restrict: 'E',
         scope: {
@@ -2789,7 +2790,7 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function ($time
             // Init Events Manager
             var events = scope.events;
 
-            // Init Crop Host
+            // Init Crop Host Instance
             var cropHost = new CropHost(element.find('canvas'), {}, events);
 
             // Store Result Image to check if it's changed
@@ -2865,7 +2866,7 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function ($time
                 element.append('<div class="loading"><span>' + scope.chargement + '...</span></div>')
             };
 
-            // Setup CropHost Event Handlers
+            // Setup cropHost Event Handlers
             events
                 .on('load-start', fnSafeApply(function (scope) {
                     scope.onLoadBegin({});
@@ -2887,7 +2888,7 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function ($time
                     updateResultImage(scope);
                 }));
 
-            // Sync CropHost with Directive's options
+            // Sync cropHost with Directive's options
             scope.$watch('image', function (newVal) {
                 if (newVal) {
                     displayLoading();
@@ -2936,7 +2937,7 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function ($time
                 if (scope.aspectRatio) cropHost.setAspect(scope.aspectRatio);
             });
 
-            // Update CropHost dimensions when the directive element is resized
+            // Update cropHost dimensions when the directive element is resized
             scope.$watch(
                 function () {
                     return [element[0].clientWidth, element[0].clientHeight];
@@ -2948,13 +2949,13 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function ($time
                 true
             );
 
-            // Destroy CropHost Instance when the directive is destroying
+            // Destroy cropHost Instance when the directive is destroying
             scope.$on('$destroy', function () {
                 cropHost.destroy();
             });
         }
     };
-}]);
+});
 
 /* canvas-toBlob.js
  * A canvas.toBlob() implementation.
