@@ -1,6 +1,5 @@
 'use strict';
-crop.$inject = ['$timeout', 'CropHost', 'CropPubSub'];
-crop.directive('imgCrop', function ($timeout, CropHost, CropPubSub) {
+crop.directive('imgCrop', ['$timeout', 'CropHost', 'CropPubSub', function ($timeout, CropHost, CropPubSub) {
     return {
         restrict: 'E',
         scope: {
@@ -215,4 +214,4 @@ crop.directive('imgCrop', function ($timeout, CropHost, CropPubSub) {
             });
         }
     };
-});
+}]);

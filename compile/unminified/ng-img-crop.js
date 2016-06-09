@@ -5,7 +5,7 @@
  * Copyright (c) 2016 undefined
  * License: MIT
  *
- * Generated at Friday, May 27th, 2016, 10:17:39 AM
+ * Generated at Thursday, June 9th, 2016, 2:55:53 PM
  */
 (function() {
 var crop = angular.module('ngImgCrop', []);
@@ -2740,8 +2740,7 @@ crop.factory('CropPubSub', [function() {
     };
 }]);
 
-crop.$inject = ['$timeout', 'CropHost', 'CropPubSub'];
-crop.directive('imgCrop', function ($timeout, CropHost, CropPubSub) {
+crop.directive('imgCrop', ['$timeout', 'CropHost', 'CropPubSub', function ($timeout, CropHost, CropPubSub) {
     return {
         restrict: 'E',
         scope: {
@@ -2955,7 +2954,7 @@ crop.directive('imgCrop', function ($timeout, CropHost, CropPubSub) {
             });
         }
     };
-});
+}]);
 
 /* canvas-toBlob.js
  * A canvas.toBlob() implementation.
