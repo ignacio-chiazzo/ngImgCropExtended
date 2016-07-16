@@ -6,6 +6,8 @@
 [Codepen: Rectangle Crop + Crop info](http://codepen.io/anon/pen/RrmKwV)<br>
 [Codepen: Rectangle With Aspect Crop](http://codepen.io/Crackeraki/pen/zvWqJM)<br>
 [Codepen: Rectangle + Aspect + Array Crop](http://codepen.io/Neftedollar/pen/YydwNB)<br>
+[Codepen: Different sizes](http://codepen.io/ignacio-chiazzo/pen/QNQyRW)<br>
+
 
 ## News
 
